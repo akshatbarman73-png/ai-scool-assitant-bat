@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My AI Assistant</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #0f172a;
+    font-family: Arial, sans-serif;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.chat-container {
+    width: 100%;
+    max-width: 450px;
+    height: 95vh;
+    background: #1e293b;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.header {
+    background: #6366f1;
+    padding: 20px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+#chat-box {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.message {
+    margin: 10px 0;
+    padding: 12px;
+    border-radius: 12px;
+    max-width: 85%;
+    word-wrap: break-word;
+}
+
+.user {
+    background: #6366f1;
+    margin-left: auto;
+}
+
+.bot {
+    background: #334155;
+    margin-right: auto;
+}
+
+.input-area {
+    display: flex;
+    padding: 12px;
+    background: #0f172a;
+    gap: 8px;
+}
+
+input {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    font-size: 16px;
+}
+
+button {
+    background: #6366f1;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="chat-container">
+
+    <div class="header">
+        🤖 My AI Assistant
+    </div>
+
+    <div id="chat-box">
+        <div class="message bot">
+            Hello! 👋 Main tumhara AI Assistant hoon.
+            Mujhse kuch bhi poochho!
+        </div>
+    </div>
+
+    <div class="input-area">
+        <input type="text" id="user-input"
+        placeholder="Message likho..."
+        onkeydown="if(event.key==='Enter') sendMessage()">
+
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+</div>
+
+<script>
+
+function sendMessage() {
+
+    let input = document.getElementById("user-input");
+    let chatBox = document.getElementById("chat-box");
+
+    let text = input.value.trim();
+
+    if (text === "") return;
+
+    chatBox.innerHTML +=
+        `<div class="message user">${escapeHTML(text)}</div>`;
+
+    input.value = "";
+
+    let reply = getReply(text);
+
+    chatBox.innerHTML +=
+        `<div class="message bot">${reply}</div>`;
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function escapeHTML(text) {
+    return text.replace(/[&<>"']/g, function(char) {
+        return {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        }[char];
+    });
+}
+
+function getReply(text) {
+
+    text = text.toLowerCase();
+
+    if (text.includes("hello") || text.includes("hi")) {
+        return "Hello! 😊 Kaise ho?";
+    }
+
+    if (text.includes("naam") || text.includes("name")) {
+        return "Mera naam My AI Assistant hai 🤖";
+    }
+
+    if (text.includes("kaise ho")) {
+        return "Main bilkul theek hoon! 😊 Tum kaise ho?";
+    }
+
+    if (text.includes("tum kaun")) {
+        return "Main ek AI Assistant Bot hoon!";
+    }
+
+    if (text.includes("bye")) {
+        return "Bye bye! 👋 Phir milte hain.";
+    }
+
+    if (text.includes("help")) {
+        return "Main tumhari questions ka jawab dene ki koshish karunga!";
+    }
+
+    return "Tumne kaha: " + escapeHTML(text) +
+    "<br>Abhi mujhe AI API se connect karna baaki hai! 🤖";
+}
+
+</script>
+
+</body>
+</html>na
